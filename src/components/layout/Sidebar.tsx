@@ -9,7 +9,7 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
 
-    const role = 'admin'
+    const role = userRole.ADMIN
     let sidebarItems
 
     switch (role){
