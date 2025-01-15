@@ -1,22 +1,22 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import { useAppDispatch } from '../redux/hooks';
-import { setUser } from '../redux/features/auth/authSlice';
+import { setUser, TUser } from '../redux/features/auth/authSlice';
 import { verifyToken } from '../utils/verifyToken';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
-type TData = {
-    id: string | null;
-    password: string | null;
-}
 
 const Login = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();;
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [login, { error}] = useLoginMutation()
 
-    const onSubmit = async (userData: TData) => {
+    const onSubmit = async (userData: FieldValues) => {
+      const toastId =  toast.loading('Logging In')
+      try {
         const userInfo = {
             id: userData.id,
             password: userData.password
@@ -26,8 +26,14 @@ const Login = () => {
         }
        const res = await  login(userInfo).unwrap();
 
-       const user = verifyToken(res?.data?.accessToken)
+       const user = verifyToken(res?.data?.accessToken) as TUser;
        dispatch(setUser({user: user, token: res?.data?.accessToken}))
+       toast.success('Logged In', {id: toastId, duration: 1000})
+       navigate(`/${user.role}/dashboard`)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        toast.error('Something went wrong', {id: toastId, duration: 1000})
+      }
 
     };
 
