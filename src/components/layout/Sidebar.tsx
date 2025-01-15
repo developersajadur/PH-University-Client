@@ -32,7 +32,7 @@ const user = useAppSelector(useCurrentUser)
     }
 
     return (
-             <Sider breakpoint="lg" collapsedWidth="0">
+      <Sider style={{ height: '100vh', position: 'sticky', top: '0', left: '0' }} breakpoint="lg" collapsedWidth="0">
       <div
         style={{
           color: 'white',
@@ -42,7 +42,7 @@ const user = useAppSelector(useCurrentUser)
           alignItems: 'center',
         }}
       >
-        <h1>PH Uni</h1>
+        <h1 className='text-2xl font-semibold'>PH Uni</h1>
       </div>
       <Menu
         theme="dark"

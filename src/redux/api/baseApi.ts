@@ -2,6 +2,7 @@
  import { BaseQueryApi, BaseQueryFn, createApi, DefinitionType, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store';
 import { logout, setUser } from '../features/auth/authSlice';
+import { toast } from 'sonner';
  const mainApi = import.meta.env.VITE_LOCAL_BASE_URL
 
 
@@ -25,6 +26,12 @@ BaseQueryApi,
 DefinitionType
 > = async(args, api, extraOptions): Promise<any> => {
     let response = await baseQuery(args, api, extraOptions);
+
+    if(response?.error?.status === 404){
+        toast.error('User not found')
+    }
+
+
     if (response?.error?.status === 401) {
      //* Send Refresh
     console.log('Sending refresh token');

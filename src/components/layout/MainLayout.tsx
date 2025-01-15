@@ -14,8 +14,8 @@ const dispatch = useAppDispatch();
    
   }
   return (
-    <Layout style={{ height: '100vh' }}>
-      <Sidebar />
+    <Layout style={{ height: '100%' }}>
+      <Sidebar  />
       <Layout>
         <Header style={{ padding: 0 }} >
           <Button onClick={handleLogout}
